@@ -52,7 +52,7 @@ public class BedrijfLauncher {
         for (Persoon opgeslagenPersoon : personen) {
             toonJaarInkomen(opgeslagenPersoon);
         }
-
+//comment om te pushen
 
 
 
