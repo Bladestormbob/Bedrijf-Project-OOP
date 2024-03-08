@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="8d1f759f-05b5-4c7a-888e-3ca45c7b02fd" name="https://github.com/Bladestormbob/Bedrijf-Project-OOP.git" url="https://github.com/Bladestormbob/Bedrijf-Project-OOP.git">
+        <fileTransfer mountedRoot="C:\Users\wow_b\IdeaProjects\MITW\OOP\Bedrijf" accessType="MOUNT" port="0" />
+      </webServer>
+    </option>
+  </component>
+</project>
