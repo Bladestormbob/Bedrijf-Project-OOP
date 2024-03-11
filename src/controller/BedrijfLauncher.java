@@ -1,12 +1,11 @@
 package controller;
 
 
-import model.Afdeling;
-import model.Persoon;
-import model.Werknemer;
-import model.Zzper;
+import model.*;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 
 /**
  * Hier de opdracht die je gaat maken
@@ -42,23 +41,36 @@ public class BedrijfLauncher {
         personen.add(new Zzper("Ronald", "Zaandam", afdelingen[0], 80.00));
         personen.add(new Zzper("Jannie", "Utrecht", afdelingen[0], 60.00));
         personen.add(new Zzper("Anne", "Zwolle", afdelingen[0], 40.00));
+        personen.add(new Vrijwilliger("Ambi", "Amsterdam", afdelingen[0]));
+        personen.add(new Vrijwilliger("Naledi", "Gaborone", afdelingen[1]));
+        personen.add(new Vrijwilliger("Ceren", "Istanboel", afdelingen[2]));
+        personen.add(new Vrijwilliger("Haining", "Shaoxing", afdelingen[3]));
+
 
         for (Persoon persoon : personen) {
             if (persoon instanceof Zzper) {
                 ((Zzper) persoon).huurIn(320);
             }
         }
-
-        for (Persoon opgeslagenPersoon : personen) {
-            toonJaarInkomen(opgeslagenPersoon);
+        for (Persoon persoon : personen) {
+            if (persoon instanceof Vrijwilliger) {
+                ((Vrijwilliger) persoon).huurIn(160);
+            }
         }
-//comment om te pushen
 
+        Collections.sort(personen);
 
+        for (Persoon persoon : personen){
+            System.out.println(persoon);
+            toonJaarInkomen(persoon);
+        }
 
     }
     public static void toonJaarInkomen (Persoon persoon){
         System.out.printf(" %s verdient %s per jaar\n", persoon.getNaam(), persoon.berekenJaarInkomen());
     }
+
+
+
 
 }

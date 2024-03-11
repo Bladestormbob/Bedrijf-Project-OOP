@@ -5,7 +5,7 @@ package model;
  *
  * @author B.J. Falkena
  */
-public class Zzper extends Persoon{
+public class Zzper extends Persoon implements Oproepbaar{
 
     private static  final int DEFAULT_UREN_GEWERKT =0;
 
