@@ -3,6 +3,8 @@ package controller;
 
 import model.*;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.sql.SQLOutput;
 import java.util.*;
 
@@ -12,41 +14,136 @@ import java.util.*;
  * @author B.J. Falkena
  */
 public class BedrijfLauncher {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws FileNotFoundException {
         Scanner keyboard = new Scanner(System.in);
+        File afdelingenBestand = new File("resources/Afdelingen.txt");
+        File personenBestand = new File("resources/Personen.csv");
 
+        ArrayList<Afdeling> afdelingen = new ArrayList<>();
         ArrayList<Persoon> personen = new ArrayList<>();
 
-        double maandsalaris = 0;
 
-                System.out.print("geef de naam: ");
-                String naam = keyboard.nextLine();
-                System.out.print("Geef de woonplaats: ");
-                String woonplaats = keyboard.nextLine();
-                System.out.print("geef de naam van de afdeling: ");
-                String afdelingNaam = keyboard.nextLine();
-                System.out.print("geef de plaats van de afdeling: ");
-                String afdelingPlaats = keyboard.nextLine();
+        try {
+            Scanner afdelingenScanner = new Scanner(afdelingenBestand);
 
-            while (maandsalaris <= 0) {
-                try {
-                    System.out.print("Geef het maandsalaris: ");
-                    maandsalaris = keyboard.nextDouble();
-
-                    personen.add(new Werknemer(naam, woonplaats, new Afdeling(afdelingNaam, afdelingPlaats), maandsalaris));
-                    System.out.printf("%s",personen.get(0));
+            while (afdelingenScanner.hasNextLine()) {
+                String afdelingsnaam = afdelingenScanner.nextLine();
+                String afdelingPlaats = afdelingenScanner.nextLine();
 
 
-                } catch (IllegalArgumentException illegalArgumentException) {
-                    System.out.println(illegalArgumentException.getMessage());
-                } finally {
-                    System.out.println();
-                    System.out.println("Je invoer is correct afgehandeld");
+                afdelingen.add(new Afdeling(afdelingsnaam, afdelingPlaats));
+            }
+
+        } catch (FileNotFoundException fileNotFoundException) {
+            System.out.println("Het bestand is niet gevonden");
+        }
+
+        try {
+            Scanner personenScanner = new Scanner(personenBestand);
+
+            while (personenScanner.hasNextLine()) {
+                String[] personenUitLijst = personenScanner.nextLine().split(",");
+
+                String rol = personenUitLijst[0];
+                String naam = personenUitLijst[1];
+                String woonplaats = personenUitLijst[2];
+                int afdeling = Integer.parseInt(personenUitLijst[3]);
+                double bedragen = Double.parseDouble(personenUitLijst[4]);
+
+                if ("Werknemer".equals(rol)) {
+                    personen.add(new Werknemer(naam, woonplaats, afdelingen.get(afdeling), bedragen));
+                } else if ("Zzper".equals(rol)) {
+                    personen.add(new Zzper(naam, woonplaats, afdelingen.get(afdeling), bedragen));
+                } else if ("Vrijwilliger".equals(rol)) {
+                    personen.add(new Vrijwilliger(naam, woonplaats, afdelingen.get(afdeling)));
                 }
+
+
+            }
+
+        } catch (FileNotFoundException fileNotFoundException) {
+            System.out.println("Het bestand is niet gevonden");
+        }
+
+        Collections.sort(personen);
+
+        System.out.println("Afdeling: Uitvoering");
+        for (Persoon persoon : personen) {
+            if ("Uitvoering".equals(persoon.getAfdeling().getAfdelingsNaam())) {
+                System.out.printf("-- %s\n", persoon);
+
+            }
+
+        }
+        System.out.println();
+        System.out.println("Afdeling: Support ");
+        for(Persoon persoon :personen) {
+            if ("Support".equals(persoon.getAfdeling().getAfdelingsNaam())) {
+                System.out.printf("-- %s\n", persoon);
+            }
+        }
+        System.out.println();
+        System.out.println("Afdeling: Management ");
+        for(Persoon persoon :personen){
+            if ("Management".equals(persoon.getAfdeling().getAfdelingsNaam())) {
+                System.out.printf("-- %s\n", persoon);
+            }
+        }
+        System.out.println();
+        System.out.println("Afdeling: Documentatie ");
+        for(Persoon persoon :personen){
+            if ("Documentatie".equals(persoon.getAfdeling().getAfdelingsNaam())) {
+                System.out.printf("-- %s\n", persoon);
             }
         }
 
+
     }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+//        ArrayList<Persoon> personen = new ArrayList<>();
+//
+//        double maandsalaris = 0;
+//
+//                System.out.print("geef de naam: ");
+//                String naam = keyboard.nextLine();
+//                System.out.print("Geef de woonplaats: ");
+//                String woonplaats = keyboard.nextLine();
+//                System.out.print("geef de naam van de afdeling: ");
+//                String afdelingNaam = keyboard.nextLine();
+//                System.out.print("geef de plaats van de afdeling: ");
+//                String afdelingPlaats = keyboard.nextLine();
+//
+//            while (maandsalaris <= 0) {
+//                try {
+//                    System.out.print("Geef het maandsalaris: ");
+//                    maandsalaris = keyboard.nextDouble();
+//
+//                    personen.add(new Werknemer(naam, woonplaats, new Afdeling(afdelingNaam, afdelingPlaats), maandsalaris));
+//                    System.out.printf("%s",personen.get(0));
+//
+//
+//                } catch (IllegalArgumentException illegalArgumentException) {
+//                    System.out.println(illegalArgumentException.getMessage());
+//                } finally {
+//                    System.out.println();
+//                    System.out.println("Je invoer is correct afgehandeld");
+//                }
+//            }
+//
+
 
 
 

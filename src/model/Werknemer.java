@@ -38,7 +38,6 @@ public class Werknemer extends Persoon{
 
     private void setMaandSalaris(double maandSalaris) {
         if (maandSalaris < DEFAULT_MAANDSALARIS) {
-            maandSalaris = DEFAULT_MAANDSALARIS;
             throw new IllegalArgumentException("maandsalaris moet positief zijn");
         }
         this.maandSalaris = maandSalaris;
