@@ -39,6 +39,7 @@ public class Werknemer extends Persoon{
     private void setMaandSalaris(double maandSalaris) {
         if (maandSalaris < DEFAULT_MAANDSALARIS) {
             maandSalaris = DEFAULT_MAANDSALARIS;
+            throw new IllegalArgumentException("maandsalaris moet positief zijn");
         }
         this.maandSalaris = maandSalaris;
     }
@@ -48,8 +49,8 @@ public class Werknemer extends Persoon{
 
     @Override
     public String toString() {
-        return String.format("%s en is een werknemer en heeft %s recht op een bonus",
-                super.toString(), heeftRechtOpBonus()? "wel" : "niet");
+        return String.format("%s en is een werknemer  %s recht op een bonus",
+                super.toString(), heeftRechtOpBonus()? "met" : "zonder");
     }
 
 
