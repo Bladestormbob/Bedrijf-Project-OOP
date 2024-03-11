@@ -67,35 +67,20 @@ public class BedrijfLauncher {
 
         Collections.sort(personen);
 
-        System.out.println("Afdeling: Uitvoering");
-        for (Persoon persoon : personen) {
-            if ("Uitvoering".equals(persoon.getAfdeling().getAfdelingsNaam())) {
-                System.out.printf("-- %s\n", persoon);
+        for (Afdeling afdeling : afdelingen) {
+            System.out.printf("\nAfdeling: %s\n", afdeling.getAfdelingsNaam());
 
-            }
+            for (Persoon persoon : personen) {
+                if (persoon.getAfdeling().getAfdelingsNaam().equals( afdeling.getAfdelingsNaam())) {
+                    System.out.printf("\n-- %s", persoon);
 
-        }
-        System.out.println();
-        System.out.println("Afdeling: Support ");
-        for(Persoon persoon :personen) {
-            if ("Support".equals(persoon.getAfdeling().getAfdelingsNaam())) {
-                System.out.printf("-- %s\n", persoon);
+                }
             }
+            System.out.println();
         }
-        System.out.println();
-        System.out.println("Afdeling: Management ");
-        for(Persoon persoon :personen){
-            if ("Management".equals(persoon.getAfdeling().getAfdelingsNaam())) {
-                System.out.printf("-- %s\n", persoon);
-            }
-        }
-        System.out.println();
-        System.out.println("Afdeling: Documentatie ");
-        for(Persoon persoon :personen){
-            if ("Documentatie".equals(persoon.getAfdeling().getAfdelingsNaam())) {
-                System.out.printf("-- %s\n", persoon);
-            }
-        }
+
+
+
 
 
     }
