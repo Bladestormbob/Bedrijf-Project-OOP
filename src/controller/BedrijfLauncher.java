@@ -1,12 +1,11 @@
 package controller;
 
-
+import database.AfdelingDAO;
+import database.DBaccess;
 import model.*;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.sql.SQLOutput;
-import java.util.*;
+import java.util.ArrayList;
+
 
 /**
  * Hier de opdracht die je gaat maken
@@ -14,76 +13,104 @@ import java.util.*;
  * @author B.J. Falkena
  */
 public class BedrijfLauncher {
-    public static void main(String[] args) throws FileNotFoundException {
-        Scanner keyboard = new Scanner(System.in);
-        File afdelingenBestand = new File("resources/Afdelingen.txt");
-        File personenBestand = new File("resources/Personen.csv");
+    //    public static void main(String[] args) throws FileNotFoundException {
+//        Scanner keyboard = new Scanner(System.in);
+//        File afdelingenBestand = new File("resources/Afdelingen.txt");
+//        File personenBestand = new File("resources/Personen.csv");
+//
+//        ArrayList<Afdeling> afdelingen = new ArrayList<>();
+//        ArrayList<Persoon> personen = new ArrayList<>();
+//
+//
+//        try {
+//            Scanner afdelingenScanner = new Scanner(afdelingenBestand);
+//
+//            while (afdelingenScanner.hasNextLine()) {
+//                String afdelingsnaam = afdelingenScanner.nextLine();
+//                String afdelingPlaats = afdelingenScanner.nextLine();
+//
+//
+//                afdelingen.add(new Afdeling(afdelingsnaam, afdelingPlaats));
+//            }
+//
+//        } catch (FileNotFoundException fileNotFoundException) {
+//            System.out.println("Het bestand is niet gevonden");
+//        }
+//
+//        try {
+//            Scanner personenScanner = new Scanner(personenBestand);
+//
+//            while (personenScanner.hasNextLine()) {
+//                String[] personenUitLijst = personenScanner.nextLine().split(",");
+//
+//                String rol = personenUitLijst[0];
+//                String naam = personenUitLijst[1];
+//                String woonplaats = personenUitLijst[2];
+//                int afdeling = Integer.parseInt(personenUitLijst[3]);
+//                double bedragen = Double.parseDouble(personenUitLijst[4]);
+//
+//                if ("Werknemer".equals(rol)) {
+//                    personen.add(new Werknemer(naam, woonplaats, afdelingen.get(afdeling), bedragen));
+//                } else if ("Zzper".equals(rol)) {
+//                    personen.add(new Zzper(naam, woonplaats, afdelingen.get(afdeling), bedragen));
+//                } else if ("Vrijwilliger".equals(rol)) {
+//                    personen.add(new Vrijwilliger(naam, woonplaats, afdelingen.get(afdeling)));
+//                }
+//
+//
+//            }
+//
+//        } catch (FileNotFoundException fileNotFoundException) {
+//            System.out.println("Het bestand is niet gevonden");
+//        }
+//
+//        Collections.sort(personen);
+//
+//        try (PrintWriter personenSchrijver = new PrintWriter("resources/PersonenPerAfdeling")) {
+//            for (Afdeling afdeling : afdelingen) {
+//                personenSchrijver.printf("\nAfdeling: %s\n", afdeling.getAfdelingsNaam());
+//
+//                for (Persoon persoon : personen) {
+//                    if (persoon.getAfdeling().getAfdelingsNaam().equals(afdeling.getAfdelingsNaam())) {
+//                        personenSchrijver.printf("\n-- %s", persoon);
+//
+//                    }
+//                }
+//                personenSchrijver.println();
+//            }
+//
+//        }
+//        catch (FileNotFoundException fileNotFoundException) {
+//            System.out.println("Het bestand is niet gevonden");
+//        }
+//
+//
+//
+//
+//
+//    }
+    public static void main(String[] args) {
+        DBaccess dBaccess = new DBaccess("Bedrijf", "userBedrijf", "userBedrijfPW");
+        dBaccess.openConnection();
+        AfdelingDAO afdelingDAO = new AfdelingDAO(dBaccess);
+        afdelingDAO.slaAfdelingOp(new Afdeling("HR", "Hilversum"));
 
-        ArrayList<Afdeling> afdelingen = new ArrayList<>();
-        ArrayList<Persoon> personen = new ArrayList<>();
-
-
-        try {
-            Scanner afdelingenScanner = new Scanner(afdelingenBestand);
-
-            while (afdelingenScanner.hasNextLine()) {
-                String afdelingsnaam = afdelingenScanner.nextLine();
-                String afdelingPlaats = afdelingenScanner.nextLine();
-
-
-                afdelingen.add(new Afdeling(afdelingsnaam, afdelingPlaats));
-            }
-
-        } catch (FileNotFoundException fileNotFoundException) {
-            System.out.println("Het bestand is niet gevonden");
-        }
-
-        try {
-            Scanner personenScanner = new Scanner(personenBestand);
-
-            while (personenScanner.hasNextLine()) {
-                String[] personenUitLijst = personenScanner.nextLine().split(",");
-
-                String rol = personenUitLijst[0];
-                String naam = personenUitLijst[1];
-                String woonplaats = personenUitLijst[2];
-                int afdeling = Integer.parseInt(personenUitLijst[3]);
-                double bedragen = Double.parseDouble(personenUitLijst[4]);
-
-                if ("Werknemer".equals(rol)) {
-                    personen.add(new Werknemer(naam, woonplaats, afdelingen.get(afdeling), bedragen));
-                } else if ("Zzper".equals(rol)) {
-                    personen.add(new Zzper(naam, woonplaats, afdelingen.get(afdeling), bedragen));
-                } else if ("Vrijwilliger".equals(rol)) {
-                    personen.add(new Vrijwilliger(naam, woonplaats, afdelingen.get(afdeling)));
-                }
-
-
-            }
-
-        } catch (FileNotFoundException fileNotFoundException) {
-            System.out.println("Het bestand is niet gevonden");
-        }
-
-        Collections.sort(personen);
-
+        System.out.println("----- Alle afdelingen -----");
+        ArrayList<Afdeling> afdelingen = afdelingDAO.geefAfdelingen();
         for (Afdeling afdeling : afdelingen) {
-            System.out.printf("\nAfdeling: %s\n", afdeling.getAfdelingsNaam());
-
-            for (Persoon persoon : personen) {
-                if (persoon.getAfdeling().getAfdelingsNaam().equals( afdeling.getAfdelingsNaam())) {
-                    System.out.printf("\n-- %s", persoon);
-
-                }
-            }
-            System.out.println();
+            System.out.println(afdeling);
+        }
+        System.out.println();
+        System.out.println("----- Afdelingen in Hilversum -----");
+        ArrayList<Afdeling> afdelingenHilversum = afdelingDAO.geefAfdelingenMetPlaats("Hilversum");
+        for (Afdeling afdeling : afdelingenHilversum) {
+            System.out.println(afdeling);
         }
 
-
-
-
-
+        dBaccess.closeConnection();
     }
+
+
 }
 
 
